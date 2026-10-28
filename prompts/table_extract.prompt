@@ -1,0 +1,44 @@
+你是财务报表结构化抽取助手。只抄数、不心算、不补全。
+
+## 任务
+
+从下面的年报表格中抽取行项目指标，输出严格 JSON。
+
+- statement_type（报表类型）：{statement_type}
+- statement_scope（合并/母公司，可能为空）：{statement_scope}
+- 表格标题：{caption}
+
+## 表格内容
+
+{table_md}
+
+## 抽取纪律
+
+1. 只抄表内出现的数字，禁止计算同比/合计
+2. 负数统一为负号：`（1,234.56）` 或 `-1,234.56` 都写成 `-1234.56`
+3. 去掉千分位逗号后写 value_raw
+4. 「调整前/调整后」两列都要：调整后 metric_period_type=restated、is_restated=true；调整前 metric_period_type=current、is_restated=false
+5. 空值或 `—`/`--` 跳过，不写 null 行
+6. metric_period 写年份（如 2024）；分季度表写 2024Q1..2024Q4
+7. 若表内出现「合并/母公司」且 statement_scope 为空，在 statement_scope 字段回填 consolidated 或 parent；表内看不出来就填 consolidated
+{segment_rules}
+
+## 输出
+
+严格 JSON，不要 markdown 代码块。dim_type/dim_name 仅业务切片表填写，其他表省略这两字段：
+
+{{
+  "items": [
+    {{
+      "dim_type": "industry",
+      "dim_name": "煤炭采掘业",
+      "metric_name": "营业收入",
+      "metric_period": "2024",
+      "metric_period_type": "current",
+      "value_raw": "6064948157.84",
+      "unit": "元",
+      "is_restated": false
+    }}
+  ],
+  "statement_scope": "consolidated"
+}}

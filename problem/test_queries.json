@@ -1,0 +1,926 @@
+{
+  "meta": {
+    "description": "Query改写模块意图识别与改写效果测试集",
+    "total": 100,
+    "types": {
+      "context_dependent": 20,
+      "comparative": 20,
+      "ambiguous_reference": 20,
+      "multi_intent": 20,
+      "rhetorical": 20
+    },
+    "companies": ["神州高铁", "全新好", "深振业A", "新世界"],
+    "data_source": "data/parse/ 4份2024年年度报告",
+    "fields": {
+      "id": "全局唯一ID",
+      "type": "query类型（英文枚举）",
+      "type_cn": "query类型（中文）",
+      "company": "涉及公司（可为多家，逗号分隔）",
+      "conversation_history": "对话历史（多意图型可为空）",
+      "current_query": "用户当前查询",
+      "expected_rewrite": "金标改写（多意图型为字符串数组）"
+    }
+  },
+  "queries": [
+    {
+      "id": 1,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年的经营情况怎么样？\nAI: 神州高铁2024年实现营业收入20.82亿元，归母净利润-5.45亿元，同比减亏34.16%。",
+      "current_query": "还有其他重要的经营指标吗？",
+      "expected_rewrite": "神州高铁2024年除了营业收入和归母净利润之外，还有哪些重要的经营指标表现？"
+    },
+    {
+      "id": 2,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁旗下有哪些主要子公司？\nAI: 神州高铁主要子公司包括新联铁、交大微联、南京拓控、武汉利德等。",
+      "current_query": "其他几家子公司的核心产品是什么？",
+      "expected_rewrite": "神州高铁旗下除了新联铁、交大微联、南京拓控、武汉利德之外的其他子公司，各自的核心产品是什么？"
+    },
+    {
+      "id": 3,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年研发投入情况如何？\nAI: 神州高铁2024年研发投入1.65亿元，占营业收入比例7.90%。",
+      "current_query": "另外研发人员情况呢？",
+      "expected_rewrite": "神州高铁2024年研发人员的数量、学历结构和年龄构成是怎样的？"
+    },
+    {
+      "id": 4,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年的销售情况如何？\nAI: 深振业A 2024年累计实现合同签约金额42.34亿元，回笼资金34.36亿元。",
+      "current_query": "还有哪些重点项目贡献了销售？",
+      "expected_rewrite": "深振业A 2024年除整体签约42.34亿元之外，还有哪些重点项目贡献了销售收入？"
+    },
+    {
+      "id": 5,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A在建的地产项目有哪些？\nAI: 深振业A在建项目包括深圳博文雅苑、天境云庭，长沙振业城五期，惠州振业城U组团等。",
+      "current_query": "另外其他城市的项目开发情况怎样？",
+      "expected_rewrite": "深振业A除深圳、长沙、惠州之外，其他城市（如河源、广州、南京等）的项目开发情况是怎样的？"
+    },
+    {
+      "id": 6,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界城2024年百货业务做了哪些调整？\nAI: 2024年新世界城引进供应商76家，全年专柜形象升级24家，调整经营面积近11000平方米。",
+      "current_query": "还有其他调整动作吗？",
+      "expected_rewrite": "新世界城2024年除了引进供应商、专柜升级和经营面积调整之外，还有哪些百货业务调整动作？"
+    },
+    {
+      "id": 7,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界旗下有哪些医药品牌？\nAI: 新世界旗下医药品牌包括蔡同德堂、群力、胡庆余堂等老字号。",
+      "current_query": "其他医药业务还有什么进展？",
+      "expected_rewrite": "新世界旗下除蔡同德堂、群力、胡庆余堂之外，其他医药业务（如徐重道中药饮片项目）有什么进展？"
+    },
+    {
+      "id": 8,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好2024年的主营业务有哪些？\nAI: 全新好主营业务包括物业租赁及管理、汽车销售及服务、杀菌卫生产品及日常用品贸易。",
+      "current_query": "还有其他新拓展的业务吗？",
+      "expected_rewrite": "全新好2024年除物业租赁、汽车销售、杀菌卫生产品贸易之外，还有其他新拓展的业务吗？"
+    },
+    {
+      "id": 9,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好汽车销售业务是怎么开展的？\nAI: 全新好通过控股子公司新城福德（别克品牌）和南通耀众（大众品牌）开展汽车销售及服务业务。",
+      "current_query": "其他子公司的业务呢？",
+      "expected_rewrite": "全新好旗下除新城福德、南通耀众之外的其他子公司（如零度大健康、都合纸业、浙江全新好医药）各自开展什么业务？"
+    },
+    {
+      "id": 10,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年的现金流情况怎么样？\nAI: 神州高铁2024年经营活动产生的现金流量净额为3.65亿元，同比增长1074.84%。",
+      "current_query": "还有其他资金方面的改善吗？",
+      "expected_rewrite": "神州高铁2024年除经营现金流大幅增长之外，在资金、负债或资产质量方面还有哪些改善？"
+    },
+    {
+      "id": 11,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年做了哪些城中村改造项目？\nAI: 深振业A承接城中村改造前期工作，成为参与深圳市拆除新建类城中村改造首批项目最多的企业。",
+      "current_query": "还有其他相关业务吗？",
+      "expected_rewrite": "深振业A除城中村改造之外，还有其他相关业务（如代建、城服、商业运营）吗？具体表现如何？"
+    },
+    {
+      "id": 12,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界酒店业务2024年表现如何？\nAI: 2024年丽笙大酒店客房总营收同比2023年增长24.15%，境外客户比例达68%。",
+      "current_query": "其他业务板块的表现呢？",
+      "expected_rewrite": "新世界2024年除酒店业务外，百货零售业和医药销售业的表现如何？"
+    },
+    {
+      "id": 13,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁的核心竞争力是什么？\nAI: 神州高铁的核心竞争力包括全产业链布局、市场及客户资源、科技创新及知识产权优势。",
+      "current_query": "还有具体的专利数据吗？",
+      "expected_rewrite": "神州高铁在科技创新及知识产权优势方面，还有哪些具体的专利数量、研发投入等数据？"
+    },
+    {
+      "id": 14,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年财务状况怎么样？\nAI: 深振业A 2024年营收60.65亿元，同比增长115.79%；归母净利润-15.68亿元。",
+      "current_query": "还有其他偿债能力指标吗？",
+      "expected_rewrite": "深振业A 2024年除营收和净利润之外，在偿债能力方面还有哪些指标（如流动比率、资产负债率、利息保障倍数）表现如何？"
+    },
+    {
+      "id": 15,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好2024年盈利情况如何？\nAI: 全新好2024年归母净利润5642.17万元，同比增长56.86%。",
+      "current_query": "另外扣非净利润表现如何？",
+      "expected_rewrite": "全新好2024年归属于上市公司股东的扣除非经常性损益的净利润是多少？同比表现如何？"
+    },
+    {
+      "id": 16,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界2024年营销活动有什么亮点？\nAI: 新世界举办了三八节美力焕新女神节、五五购物节、ACG嘉年华等活动，ACG嘉年华客流突破10万人次。",
+      "current_query": "还有哪些品牌结构调整的动作？",
+      "expected_rewrite": "新世界2024年除营销活动之外，还有哪些品牌结构调整的具体动作（如首店引入、自营店、销冠品牌）？"
+    },
+    {
+      "id": 17,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年有哪些降本措施？\nAI: 神州高铁销售费用、管理费用合计较2023年减少0.99亿元，同比下降17.85%，毛利率提升1.74个百分点。",
+      "current_query": "还有其他经营改善的地方吗？",
+      "expected_rewrite": "神州高铁2024年除费用下降、毛利率提升之外，还有其他经营改善（如新签合同、资产质量、减亏）的地方吗？"
+    },
+    {
+      "id": 18,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年销售有哪些亮点项目？\nAI: 深振业A 2024年销售较好的项目包括南京翡丽铂湾、铭著风华，天津御湖，西安振业泊悦府等。",
+      "current_query": "还有其他城市的销售情况吗？",
+      "expected_rewrite": "深振业A 2024年除南京、天津、西安等城市外，其他城市项目（如东莞、深汕、南宁）的销售情况如何？"
+    },
+    {
+      "id": 19,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好2024年有什么新的对外投资？\nAI: 2024年四季度，公司以认缴资金1000万元设立全资子公司浙江全新好医药有限公司。",
+      "current_query": "还有其他子公司相关的事项吗？",
+      "expected_rewrite": "全新好2024年除设立浙江全新好医药有限公司之外，还有哪些子公司相关的投资、并购或处置事项？"
+    },
+    {
+      "id": 20,
+      "type": "context_dependent",
+      "type_cn": "上下文依赖型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界2024年医药业务有什么进展？\nAI: 蔡同德堂开发了茶饮、条形膏方等新品，群力举办成立一百周年活动，胡庆余堂完成功能性修缮。",
+      "current_query": "还有其他老字号的动作吗？",
+      "expected_rewrite": "新世界2024年除蔡同德堂、群力、胡庆余堂之外的其他老字号（如徐重道）有什么动作或进展？"
+    },
+    {
+      "id": 21,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,深振业A",
+      "conversation_history": "",
+      "current_query": "神州高铁和深振业A 2024年哪家营收更高，亏损更大？",
+      "expected_rewrite": "请对比神州高铁和深振业A 2024年的营业收入规模和归属于上市公司股东的净利润（含亏损额）"
+    },
+    {
+      "id": 22,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "全新好,新世界",
+      "conversation_history": "",
+      "current_query": "全新好与新世界2024年相比哪家盈利能力更强？",
+      "expected_rewrite": "请对比全新好与新世界2024年的归母净利润、扣非净利润和加权平均净资产收益率，分析哪家盈利能力更强"
+    },
+    {
+      "id": 23,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,深振业A,全新好,新世界",
+      "conversation_history": "",
+      "current_query": "四家公司2024年哪家的经营性现金流最好？",
+      "expected_rewrite": "请对比神州高铁、深振业A、全新好、新世界2024年经营活动产生的现金流量净额，找出表现最好的公司"
+    },
+    {
+      "id": 24,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,深振业A",
+      "conversation_history": "",
+      "current_query": "这两家亏损公司哪一家亏损收窄更明显？",
+      "expected_rewrite": "请对比神州高铁和深振业A 2024年归属于上市公司股东的净利润同比变化情况，判断哪一家亏损收窄更明显（或亏损扩大）"
+    },
+    {
+      "id": 25,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "全新好,新世界",
+      "conversation_history": "",
+      "current_query": "全新好和新世界2024年营收哪家规模更大？增长情况如何？",
+      "expected_rewrite": "请对比全新好和新世界2024年的营业收入规模和同比增长率"
+    },
+    {
+      "id": 26,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,深振业A,全新好,新世界",
+      "conversation_history": "",
+      "current_query": "四家公司2024年哪家的基本每股收益最高？",
+      "expected_rewrite": "请对比神州高铁、深振业A、全新好、新世界2024年的基本每股收益，找出最高的公司"
+    },
+    {
+      "id": 27,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,新世界",
+      "conversation_history": "",
+      "current_query": "神州高铁和新世界2024年研发投入哪家力度更大？",
+      "expected_rewrite": "请对比神州高铁和新世界2024年的研发投入金额、研发投入占营业收入比例等指标，判断哪家研发投入力度更大"
+    },
+    {
+      "id": 28,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "深振业A,新世界",
+      "conversation_history": "",
+      "current_query": "深振业A和新世界2024年总资产规模谁更大？负债情况如何？",
+      "expected_rewrite": "请对比深振业A和新世界2024年末的总资产、归属于上市公司股东的净资产和资产负债情况"
+    },
+    {
+      "id": 29,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,全新好",
+      "conversation_history": "",
+      "current_query": "神州高铁与全新好2024年主营业务分别是什么？哪个更集中？",
+      "expected_rewrite": "请对比神州高铁与全新好2024年的主营业务构成，分析哪个公司的业务更集中"
+    },
+    {
+      "id": 30,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "全新好,深振业A",
+      "conversation_history": "",
+      "current_query": "全新好和深振业A 2024年净资产收益率对比如何？",
+      "expected_rewrite": "请对比全新好和深振业A 2024年的加权平均净资产收益率"
+    },
+    {
+      "id": 31,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,深振业A,全新好,新世界",
+      "conversation_history": "",
+      "current_query": "四家公司2024年分红情况如何？哪家有派息？",
+      "expected_rewrite": "请对比神州高铁、深振业A、全新好、新世界2024年的利润分配预案（是否派发现金红利、送红股、转增股本）"
+    },
+    {
+      "id": 32,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "深振业A,新世界",
+      "conversation_history": "",
+      "current_query": "深振业A和新世界2024年营收同比走势哪个更好？",
+      "expected_rewrite": "请对比深振业A（营收同比增长115.79%）和新世界（营收同比下降1.21%）2024年营业收入同比走势并分析原因"
+    },
+    {
+      "id": 33,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,全新好",
+      "conversation_history": "",
+      "current_query": "神州高铁和全新好2024年哪个公司在成本控制方面做得更好？",
+      "expected_rewrite": "请对比神州高铁和全新好2024年的销售费用、管理费用、财务费用变化情况，分析哪个公司在成本控制方面做得更好"
+    },
+    {
+      "id": 34,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "深振业A,全新好,新世界",
+      "conversation_history": "",
+      "current_query": "三家公司2024年归母净利润同比增长哪家最快？",
+      "expected_rewrite": "请对比深振业A、全新好、新世界2024年归母净利润同比增长率，找出增长最快的公司"
+    },
+    {
+      "id": 35,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,新世界",
+      "conversation_history": "",
+      "current_query": "神州高铁和新世界2024年经营现金流与净利润匹配度哪个更好？",
+      "expected_rewrite": "请对比神州高铁和新世界2024年经营活动现金流净额与归母净利润的匹配度（现金流/净利润），分析哪个公司盈利质量更高"
+    },
+    {
+      "id": 36,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "全新好,新世界",
+      "conversation_history": "",
+      "current_query": "全新好和新世界2024年在业务多元化方面哪家探索更多？",
+      "expected_rewrite": "请对比全新好和新世界2024年在业务多元化方面的探索和布局，分析哪家公司业务更多元"
+    },
+    {
+      "id": 37,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,深振业A,全新好,新世界",
+      "conversation_history": "",
+      "current_query": "四家公司2024年总资产规模排序是什么？",
+      "expected_rewrite": "请对比神州高铁、深振业A、全新好、新世界2024年末总资产，并按规模从大到小排序"
+    },
+    {
+      "id": 38,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "深振业A,神州高铁",
+      "conversation_history": "",
+      "current_query": "深振业A和神州高铁2024年资产负债率谁更稳健？",
+      "expected_rewrite": "请对比深振业A和神州高铁2024年末的资产负债率和偿债能力指标，判断哪家公司财务更稳健"
+    },
+    {
+      "id": 39,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "全新好,深振业A",
+      "conversation_history": "",
+      "current_query": "全新好与深振业A 2024年经营现金流净额对比如何？",
+      "expected_rewrite": "请对比全新好与深振业A 2024年经营活动产生的现金流量净额及同比增长情况"
+    },
+    {
+      "id": 40,
+      "type": "comparative",
+      "type_cn": "对比型",
+      "company": "神州高铁,新世界,全新好",
+      "conversation_history": "",
+      "current_query": "三家公司2024年面向未来的主要发展战略有什么不同？",
+      "expected_rewrite": "请对比神州高铁、新世界、全新好2024年报中披露的未来发展战略和经营计划的差异"
+    },
+    {
+      "id": 41,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁旗下有新联铁、交大微联、南京拓控、武汉利德等子公司。\nAI: 是的，这些子公司在轨道交通检修装备领域各有专长。",
+      "current_query": "他们各自的核心产品是什么？",
+      "expected_rewrite": "神州高铁旗下新联铁、交大微联、南京拓控、武汉利德各自的核心产品是什么？"
+    },
+    {
+      "id": 42,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年营业收入60.65亿元，归母净利润-15.68亿元。\nAI: 是的，公司营收同比大幅增长但净利润仍为亏损。",
+      "current_query": "它们的变化幅度分别是多少？",
+      "expected_rewrite": "深振业A 2024年营业收入和归母净利润的同比变化幅度分别是多少？"
+    },
+    {
+      "id": 43,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界旗下有百货零售、医药、酒店三大业务板块。\nAI: 是的，公司以“做优百货业、做强医药业、做精酒店业”为重点。",
+      "current_query": "它们2024年分别表现如何？",
+      "expected_rewrite": "新世界百货零售、医药、酒店三大业务板块2024年分别表现如何？"
+    },
+    {
+      "id": 44,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好旗下有物业租赁、汽车销售、杀菌产品贸易三块业务。\nAI: 对，这三块业务目前是公司主营。",
+      "current_query": "它们各自的收入占比是多少？",
+      "expected_rewrite": "全新好物业租赁及管理、汽车销售及服务、杀菌卫生产品及日常用品贸易三块业务各自的收入占比是多少？"
+    },
+    {
+      "id": 45,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "神州高铁,深振业A",
+      "conversation_history": "用户: 神州高铁2024年营收20.82亿亏损5.45亿，深振业A营收60.65亿亏损15.68亿。\nAI: 是的，两家公司2024年都处于亏损状态。",
+      "current_query": "哪个的亏损比例更严重？",
+      "expected_rewrite": "神州高铁与深振业A 2024年，哪个公司的亏损（亏损额/营收）比例更严重？"
+    },
+    {
+      "id": 46,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界旗下有蔡同德堂、群力、胡庆余堂等老字号医药品牌。\nAI: 是的，这些都是公司医药板块的重要资产。",
+      "current_query": "它们2024年都有哪些新动作？",
+      "expected_rewrite": "新世界旗下蔡同德堂、群力、胡庆余堂等老字号医药品牌2024年都有哪些新动作？"
+    },
+    {
+      "id": 47,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年交付住宅1520套，完成保交楼任务。\nAI: 是的，公司各地产开发项目交付平稳有序。",
+      "current_query": "它们主要分布在哪些城市？",
+      "expected_rewrite": "深振业A 2024年交付的1520套住宅主要分布在哪些城市？"
+    },
+    {
+      "id": 48,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好的新城福德是别克经销商，南通耀众是大众经销商。\nAI: 对，这两家子公司开展汽车销售及服务业务。",
+      "current_query": "他们2024年的经营情况如何？",
+      "expected_rewrite": "全新好旗下新城福德和南通耀众2024年的经营情况如何？"
+    },
+    {
+      "id": 49,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁有南京拓控、华兴致远两家国家级专精特新“小巨人”企业。\nAI: 是的，公司形成了2个国家级+6个省市级的专精特新布局。",
+      "current_query": "他们的核心技术方向是什么？",
+      "expected_rewrite": "神州高铁旗下南京拓控和华兴致远这两家国家级专精特新“小巨人”企业的核心技术方向是什么？"
+    },
+    {
+      "id": 50,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界城2024年引入了首店、首展、首发等新品牌。\nAI: 是的，公司全面推进女性、潮玩、休闲、餐饮、文娱五大类提升工作。",
+      "current_query": "他们都带来了什么效果？",
+      "expected_rewrite": "新世界城2024年引入的首店、首展、首发等新品牌都带来了什么经营效果？"
+    },
+    {
+      "id": 51,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "深振业A,新世界",
+      "conversation_history": "用户: 深振业A 2024年归母净资产54.04亿，新世界2024年归母净资产42.10亿。\nAI: 是的，两家公司净资产规模相当。",
+      "current_query": "他们2024年净资产收益率分别是多少？",
+      "expected_rewrite": "深振业A和新世界2024年的加权平均净资产收益率分别是多少？"
+    },
+    {
+      "id": 52,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好目前没有控股股东，也没有实际控制人。\nAI: 是的，公司股权结构较为分散。",
+      "current_query": "这是什么时候变成这样的？",
+      "expected_rewrite": "全新好变成无控股股东、无实际控制人的状态是什么时候、因何原因导致的？"
+    },
+    {
+      "id": 53,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年销售费用1.55亿、管理费用3.01亿、研发费用1.60亿。\nAI: 是的，公司三费较2023年均有明显下降。",
+      "current_query": "它们的下降幅度各是多少？",
+      "expected_rewrite": "神州高铁2024年销售费用、管理费用、研发费用的下降幅度各是多少？"
+    },
+    {
+      "id": 54,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年合同签约金额42.34亿元，回笼资金34.36亿元。\nAI: 是的，公司超额完成年度目标。",
+      "current_query": "他们的差距是什么原因？",
+      "expected_rewrite": "深振业A 2024年合同签约金额42.34亿元与回笼资金34.36亿元之间差距的主要原因是什么？"
+    },
+    {
+      "id": 55,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界2024年收到政府补助1520万元。\nAI: 是的，本报告期内政府补助较去年有所增加。",
+      "current_query": "它对净利润的影响有多大？",
+      "expected_rewrite": "新世界2024年收到的1520万元政府补助对其归母净利润的影响有多大？"
+    },
+    {
+      "id": 56,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好2024年设立浙江全新好医药有限公司，认缴1000万。\nAI: 对，这是公司拓展医药业务的新尝试。",
+      "current_query": "它预计什么时候能贡献营收？",
+      "expected_rewrite": "全新好2024年设立的浙江全新好医药有限公司预计什么时候能开始贡献营业收入？"
+    },
+    {
+      "id": 57,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "神州高铁,全新好",
+      "conversation_history": "用户: 神州高铁2024年不派发现金红利，全新好2024年也不派发现金红利。\nAI: 是的，两家公司都计划不派现、不送红股。",
+      "current_query": "他们为什么不分红？",
+      "expected_rewrite": "神州高铁和全新好2024年都不计划分红的原因分别是什么？"
+    },
+    {
+      "id": 58,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年商业运营租赁收入合计1.24亿元。\nAI: 是的，公司商业运营板块稳健发展。",
+      "current_query": "它主要是哪些项目贡献的？",
+      "expected_rewrite": "深振业A 2024年商业运营租赁收入1.24亿元主要是哪些项目贡献的？"
+    },
+    {
+      "id": 59,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界丽笙大酒店2024年境外客户比例达68%，客房营收增长24.15%。\nAI: 是的，酒店借力免签政策业绩大幅提升。",
+      "current_query": "它是怎么实现这个增长的？",
+      "expected_rewrite": "新世界丽笙大酒店2024年是怎么实现境外客户比例68%、客房营收增长24.15%的？具体措施是什么？"
+    },
+    {
+      "id": 60,
+      "type": "ambiguous_reference",
+      "type_cn": "模糊指代型",
+      "company": "神州高铁,深振业A",
+      "conversation_history": "用户: 神州高铁2024年新签合同27.02亿元，深振业A 2024年合同签约42.34亿元。\nAI: 是的，两家公司2024年新签订单情况都较好。",
+      "current_query": "哪个对后续业绩的支撑更强？",
+      "expected_rewrite": "神州高铁27.02亿元新签合同与深振业A 42.34亿元合同签约，哪个对后续业绩的支撑更强？"
+    },
+    {
+      "id": 61,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "神州高铁",
+      "conversation_history": "",
+      "current_query": "神州高铁2024年营收多少？净利润多少？分红吗？",
+      "expected_rewrite": ["神州高铁2024年营业收入是多少？", "神州高铁2024年归母净利润是多少？", "神州高铁2024年的利润分配方案是什么？"]
+    },
+    {
+      "id": 62,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "深振业A",
+      "conversation_history": "",
+      "current_query": "深振业A 2024年销售了多少金额？交付了多少套房子？主要在哪些城市？",
+      "expected_rewrite": ["深振业A 2024年合同签约金额是多少？", "深振业A 2024年交付住宅套数是多少？", "深振业A 2024年的主要开发项目分布在哪些城市？"]
+    },
+    {
+      "id": 63,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "新世界",
+      "conversation_history": "",
+      "current_query": "新世界三大业务分别是什么？各自2024年表现怎么样？未来规划是什么？",
+      "expected_rewrite": ["新世界的三大业务板块分别是什么？", "新世界百货、医药、酒店三大业务2024年的表现分别如何？", "新世界未来的经营计划和发展战略是什么？"]
+    },
+    {
+      "id": 64,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "全新好",
+      "conversation_history": "",
+      "current_query": "全新好2024年营收多少？净利润多少？主营业务有哪些？",
+      "expected_rewrite": ["全新好2024年营业收入是多少？", "全新好2024年归母净利润是多少？", "全新好2024年的主营业务构成是怎样的？"]
+    },
+    {
+      "id": 65,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "神州高铁,深振业A",
+      "conversation_history": "",
+      "current_query": "神州高铁和深振业A 2024年各自营收多少？亏损多少？为什么亏损？",
+      "expected_rewrite": ["神州高铁和深振业A 2024年营业收入分别是多少？", "神州高铁和深振业A 2024年归母净利润亏损分别是多少？", "神州高铁和深振业A 2024年亏损的原因分别是什么？"]
+    },
+    {
+      "id": 66,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "新世界",
+      "conversation_history": "",
+      "current_query": "新世界城2024年引进了多少家供应商？调整了多少面积？营销活动有哪些？",
+      "expected_rewrite": ["新世界城2024年引进了多少家供应商？", "新世界城2024年调整了多少经营面积？", "新世界城2024年举办了哪些营销活动？"]
+    },
+    {
+      "id": 67,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "深振业A",
+      "conversation_history": "",
+      "current_query": "深振业A的土地储备有多少？在建项目有哪些？2024年新拿地了吗？",
+      "expected_rewrite": ["深振业A的土地储备情况是怎样的？", "深振业A的在建地产项目有哪些？", "深振业A 2024年是否新增了土地储备？"]
+    },
+    {
+      "id": 68,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "神州高铁",
+      "conversation_history": "",
+      "current_query": "神州高铁2024年研发投入多少？有多少研发人员？专利有多少件？",
+      "expected_rewrite": ["神州高铁2024年研发投入金额是多少？", "神州高铁2024年研发人员数量和占比是多少？", "神州高铁截至2024年底累计拥有多少件授权专利？"]
+    },
+    {
+      "id": 69,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "全新好",
+      "conversation_history": "",
+      "current_query": "全新好物业业务在哪里？汽车经销品牌是什么？大健康业务卖什么产品？",
+      "expected_rewrite": ["全新好物业租赁业务的主要经营区域是哪里？", "全新好汽车销售及服务业务覆盖哪些汽车品牌？", "全新好大健康/杀菌产品业务主要销售什么产品？"]
+    },
+    {
+      "id": 70,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "新世界",
+      "conversation_history": "",
+      "current_query": "新世界丽笙酒店境外客户占比多少？客房营收增长多少？餐饮做得怎么样？",
+      "expected_rewrite": ["新世界丽笙大酒店2024年境外客户比例是多少？", "新世界丽笙大酒店2024年客房营收同比增长情况如何？", "新世界丽笙大酒店2024年餐饮业务的经营情况如何？"]
+    },
+    {
+      "id": 71,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "神州高铁,全新好",
+      "conversation_history": "",
+      "current_query": "神州高铁和全新好2024年总资产多少？资产负债率多少？现金流如何？",
+      "expected_rewrite": ["神州高铁和全新好2024年末的总资产分别是多少？", "神州高铁和全新好2024年末的资产负债率分别是多少？", "神州高铁和全新好2024年的经营活动现金流量净额分别是多少？"]
+    },
+    {
+      "id": 72,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "深振业A",
+      "conversation_history": "",
+      "current_query": "深振业A 2024年营收增长了多少？净利润变化了多少？每股收益多少？",
+      "expected_rewrite": ["深振业A 2024年营业收入同比增长了多少？", "深振业A 2024年归母净利润同比变化了多少？", "深振业A 2024年基本每股收益是多少？"]
+    },
+    {
+      "id": 73,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "新世界",
+      "conversation_history": "",
+      "current_query": "新世界医药板块有哪些老字号？徐重道项目进展如何？胡庆余堂有什么改造？",
+      "expected_rewrite": ["新世界医药板块包含哪些老字号品牌？", "新世界徐重道中药饮片项目2024年的进展如何？", "新世界胡庆余堂2024年完成了什么改造？"]
+    },
+    {
+      "id": 74,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "神州高铁",
+      "conversation_history": "",
+      "current_query": "神州高铁2024年新签合同多少？有哪些新产品实现批量销售？专精特新布局如何？",
+      "expected_rewrite": ["神州高铁2024年新签合同金额是多少？", "神州高铁2024年有哪些新产品实现批量销售？", "神州高铁的专精特新企业布局情况是怎样的？"]
+    },
+    {
+      "id": 75,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "全新好",
+      "conversation_history": "",
+      "current_query": "全新好2024年扣非净利润多少？经营现金流多少？不分红的原因是什么？",
+      "expected_rewrite": ["全新好2024年扣除非经常性损益的净利润是多少？", "全新好2024年经营活动产生的现金流量净额是多少？", "全新好2024年不分红的原因是什么？"]
+    },
+    {
+      "id": 76,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "深振业A,新世界",
+      "conversation_history": "",
+      "current_query": "深振业A和新世界2024年营收各自多少？同比如何？哪家总资产更大？",
+      "expected_rewrite": ["深振业A和新世界2024年营业收入分别是多少？", "深振业A和新世界2024年营业收入同比变化分别是多少？", "深振业A和新世界2024年末总资产哪家更大？"]
+    },
+    {
+      "id": 77,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "神州高铁",
+      "conversation_history": "",
+      "current_query": "神州高铁的控股股东是谁？主营业务有哪些？核心子公司有哪些？",
+      "expected_rewrite": ["神州高铁的控股股东是谁？", "神州高铁的主要业务板块有哪些？", "神州高铁的核心子公司有哪些？"]
+    },
+    {
+      "id": 78,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "深振业A",
+      "conversation_history": "",
+      "current_query": "深振业A 2024年城中村改造做了哪些？代建业务如何？商业运营收入多少？",
+      "expected_rewrite": ["深振业A 2024年承接了哪些城中村改造项目？", "深振业A 2024年代建业务的开展情况如何？", "深振业A 2024年商业运营租赁收入是多少？"]
+    },
+    {
+      "id": 79,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "新世界",
+      "conversation_history": "",
+      "current_query": "新世界2024年营收多少？净利润多少？政府补助多少？",
+      "expected_rewrite": ["新世界2024年营业收入是多少？", "新世界2024年归母净利润是多少？", "新世界2024年收到政府补助多少？"]
+    },
+    {
+      "id": 80,
+      "type": "multi_intent",
+      "type_cn": "多意图型",
+      "company": "神州高铁,深振业A,全新好,新世界",
+      "conversation_history": "",
+      "current_query": "四家公司2024年哪家营收最高？哪家净利润最好？哪家现金流最强？",
+      "expected_rewrite": ["神州高铁、深振业A、全新好、新世界2024年营业收入哪家最高？", "神州高铁、深振业A、全新好、新世界2024年归母净利润哪家最好？", "神州高铁、深振业A、全新好、新世界2024年经营活动现金流量净额哪家最强？"]
+    },
+    {
+      "id": 81,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 我看神州高铁2024年亏了5.45亿。\nAI: 是的，归母净利润-5.45亿元，同比减亏34.16%。",
+      "current_query": "这不会是越亏越多吧？",
+      "expected_rewrite": "神州高铁2024年相比2023年的亏损是扩大了还是收窄了？"
+    },
+    {
+      "id": 82,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年营收涨得挺多的。\nAI: 是的，营收同比增长115.79%，但归母净利润-15.68亿元。",
+      "current_query": "难道收入增长了利润反而更差了？",
+      "expected_rewrite": "深振业A 2024年为什么营业收入大幅增长的同时归母净利润仍然亏损且同比扩大？"
+    },
+    {
+      "id": 83,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界2024年净利润同比增长121.22%。\nAI: 是的，归母净利润7003.14万元。",
+      "current_query": "这不是靠政府补助撑起来的吧？",
+      "expected_rewrite": "新世界2024年归母净利润的大幅增长中，政府补助等非经常性损益贡献了多少？扣非后的真实经营性盈利情况如何？"
+    },
+    {
+      "id": 84,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好2024年归母净利润5642万，增长56.86%。\nAI: 是的，公司整体盈利情况不错。",
+      "current_query": "难道不是靠卖资产撑起来的？",
+      "expected_rewrite": "全新好2024年归母净利润的增长是否依赖非经常性损益（如资产处置）？扣非后的真实经营性盈利情况如何？"
+    },
+    {
+      "id": 85,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年经营活动现金流3.65亿，同比大增1074.84%。\nAI: 是的，现金流改善明显。",
+      "current_query": "现金流这么好为什么还在亏钱？",
+      "expected_rewrite": "神州高铁2024年经营活动现金流净额同比大幅增长1074.84%但仍归母净利润亏损的原因是什么？"
+    },
+    {
+      "id": 86,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年合同签约42.34亿，超额完成目标。\nAI: 是的，公司回笼资金34.36亿元。",
+      "current_query": "卖得这么好为什么还亏这么多？",
+      "expected_rewrite": "深振业A 2024年合同签约超额完成目标的情况下，归母净利润仍然亏损15.68亿元的原因是什么？"
+    },
+    {
+      "id": 87,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界城2024年调整了经营面积近11000平方米。\nAI: 是的，公司积极调整品牌结构。",
+      "current_query": "这调来调去能有用吗？",
+      "expected_rewrite": "新世界城2024年品牌结构调整和经营面积调整对百货业务的实际经营效果如何？"
+    },
+    {
+      "id": 88,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好2024年新设立浙江全新好医药有限公司。\nAI: 是的，认缴资金1000万元。",
+      "current_query": "不会又是一次多元化失败吧？",
+      "expected_rewrite": "全新好此次布局医药业务（浙江全新好医药有限公司）相比过往多元化尝试有何不同？是否具备成功的基础？"
+    },
+    {
+      "id": 89,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年研发费用1.60亿，同比下降17.18%。\nAI: 是的，公司管控费用支出，研发项目聚焦现有产品升级迭代。",
+      "current_query": "研发投入下降不会影响长期竞争力吧？",
+      "expected_rewrite": "神州高铁2024年研发投入下降17.18%对其长期技术竞争力和业务发展会产生什么影响？"
+    },
+    {
+      "id": 90,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年没有新增土地储备。\nAI: 是的，本年度公司无新增土地储备。",
+      "current_query": "难道公司准备收缩地产业务了？",
+      "expected_rewrite": "深振业A 2024年无新增土地储备是否意味着公司要收缩地产业务？公司的土地储备和后续开发计划是怎样的？"
+    },
+    {
+      "id": 91,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界丽笙酒店2024年境外客户占比68%。\nAI: 是的，酒店借力免签政策大幅提升境外客户比例。",
+      "current_query": "这不是靠免签政策的运气吧？",
+      "expected_rewrite": "新世界丽笙大酒店境外客户占比68%主要得益于哪些经营措施？免签政策之外还有哪些自身努力？"
+    },
+    {
+      "id": 92,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好2024年营收3.07亿，同比增长42%。\nAI: 是的，公司整体营收增长较好。",
+      "current_query": "增长这么快不会是低基数造成的吧？",
+      "expected_rewrite": "全新好2024年营业收入同比增长42%的主要驱动因素是什么？是否受到低基数影响？"
+    },
+    {
+      "id": 93,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年归属净利润-5.45亿。\nAI: 是的，同比减亏34.16%。",
+      "current_query": "这都连续亏了几年了，还能好吗？",
+      "expected_rewrite": "神州高铁最近几年连续亏损的情况是怎样的？2024年出现减亏，未来盈利能力是否有望恢复？"
+    },
+    {
+      "id": 94,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年末资产负债率66.97%。\nAI: 是的，比上年末的71.29%有所下降。",
+      "current_query": "这么高的负债率不会爆雷吧？",
+      "expected_rewrite": "深振业A 2024年末资产负债率66.97%的偿债风险如何？公司有哪些偿债保障措施？"
+    },
+    {
+      "id": 95,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界2024年营收11.20亿，同比-1.21%。\nAI: 是的，公司营收整体基本持平略降。",
+      "current_query": "在消费复苏的背景下这不是掉队了吧？",
+      "expected_rewrite": "新世界2024年营业收入同比略降1.21%在全国消费市场复苏的背景下是否表现落后？主要原因是什么？"
+    },
+    {
+      "id": 96,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "全新好",
+      "conversation_history": "用户: 全新好目前没有控股股东，也没有实际控制人。\nAI: 是的，公司股权结构较为分散。",
+      "current_query": "没有实控人公司还能稳定经营吗？",
+      "expected_rewrite": "全新好无控股股东、无实际控制人的股权结构对公司经营稳定性会产生什么影响？公司治理如何保障？"
+    },
+    {
+      "id": 97,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "神州高铁",
+      "conversation_history": "用户: 神州高铁2024年新签合同27.02亿元。\nAI: 是的，公司积极加强市场开拓。",
+      "current_query": "新签这么多合同能真的变成收入吗？",
+      "expected_rewrite": "神州高铁2024年新签合同27.02亿元转化为未来营业收入的确定性如何？是否存在合同履约风险？"
+    },
+    {
+      "id": 98,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "深振业A",
+      "conversation_history": "用户: 深振业A 2024年交付住宅1520套。\nAI: 是的，公司完成保交楼任务目标。",
+      "current_query": "保交楼难道不是应该的吗？",
+      "expected_rewrite": "深振业A 2024年完成1520套住宅交付任务的具体情况如何？公司在保交楼方面做了哪些工作？"
+    },
+    {
+      "id": 99,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "新世界",
+      "conversation_history": "用户: 新世界2024年归母净利润7003万。\nAI: 是的，同比增长121.22%。",
+      "current_query": "百货零售都这么难做了，还能保持增长？",
+      "expected_rewrite": "在百货零售行业经营困难的背景下，新世界2024年归母净利润为何仍能保持121.22%的增长？主要驱动因素是什么？"
+    },
+    {
+      "id": 100,
+      "type": "rhetorical",
+      "type_cn": "反问型",
+      "company": "全新好,神州高铁",
+      "conversation_history": "用户: 全新好2024年不分红，神州高铁2024年也不分红。\nAI: 是的，两家公司都计划不派发现金红利。",
+      "current_query": "股东投了钱连个分红都拿不到？",
+      "expected_rewrite": "全新好和神州高铁2024年都不进行现金分红的原因是什么？对股东回报有何安排？"
+    }
+  ]
+}

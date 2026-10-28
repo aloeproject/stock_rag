@@ -1,0 +1,35 @@
+[project]
+name = "stock-rag"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "cryptography<45",
+    "dashscope>=1.27.7",
+    "fastapi>=0.143.0",
+    "flagembedding>=1.4.0",
+    "langchain-openai",
+    "langgraph>=1.2.14",
+    "loguru>=0.7.2",
+    # torch 2.2（Intel macOS 可用的最后大版本）不兼容 numpy 2.x
+    "numpy>=1.26,<2",
+    # flagembedding→datasets→pyarrow 新版强依赖 numpy 2.x，钉住兼容 numpy 1.x 的版本
+    "pandas>=2,<3",
+    "path>=17.1.1",
+    "pyarrow>=14,<25",
+    "pydantic>=2.14.0",
+    "pymysql>=1.2.3",
+    "python-dotenv>=1.2.4",
+    "python-multipart>=0.0.32",
+    "qdrant-client>=1.19.1",
+    "redis>=8.1.0",
+    "requests>=2.32.0",
+    "sqlalchemy>=2.1.4",
+    "torch>=2.1,<2.3",
+    "transformers>=4.40,<5",
+    "uvicorn>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
